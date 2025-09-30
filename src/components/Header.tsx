@@ -1,141 +1,106 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Video, Sun, Moon } from 'lucide-react';
-import { motion } from 'framer-motion';
-import { useTheme } from '../contexts/ThemeContext';
+import React, { useState, useEffect } from "react";
+import { Menu, X, Play, Sparkles } from "lucide-react";
 
-export const Header: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
+const Header: React.FC = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const location = useLocation();
-  const { isDark, toggleTheme } = useTheme();
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const navItems = [
-    { path: '/', label: 'Home' },
-    { path: '/pricing', label: 'Pricing' },
-    { path: '/about', label: 'About' },
-    { path: '/learnings', label: 'Learnings' },
-    { path: '/contact', label: 'Contact' },
+    { label: "Features", href: "#features" },
+    { label: "Pricing", href: "#pricing" },
+    { label: "About", href: "#about" },
+    { label: "Learn", href: "#learn" },
+    { label: "Contact", href: "#contact" },
   ];
 
   return (
-    <motion.header
-      className={`fixed w-full top-0 z-50 transition-all duration-300 ${
-        isScrolled 
-          ? 'bg-white/10 dark:bg-gray-900/10 backdrop-blur-xl border-b border-white/20 dark:border-gray-700/20 shadow-lg' 
-          : 'bg-transparent'
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isScrolled
+          ? ""
+          : "bg-transparent"
       }`}
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.5 }}
     >
-      <div className="container mx-auto px-6 py-4">
-        <div className="flex items-center justify-between">
-          <Link to="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-lg flex items-center justify-center">
-              <Video className="w-5 h-5 text-white" />
+      <div className="container mx-auto px-4 lg:px-8">
+        <div className="flex items-center justify-between h-16 lg:h-20">
+          {/* Logo */}
+          <a href="/" className={`transition-all duration-300 ${isScrolled ? 'bg-white/90 backdrop-blur-lg border border-gray-200/50 rounded-lg px-4 py-2 shadow-md' : ''}`}>
+            <div className="flex items-center space-x-2">
+              <div className="flex items-center justify-center w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg">
+                <Sparkles className="w-5 h-5 text-white" />
+              </div>
+              <span className="text-xl lg:text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                Pixaura AI
+              </span>
             </div>
-            <span className="text-xl font-bold bg-gradient-to-r from-purple-600 to-cyan-600 dark:from-purple-400 dark:to-cyan-400 bg-clip-text text-transparent">
-              AIVideoGen
-            </span>
-          </Link>
+          </a>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
-            {navItems.map((item) => (
-              <Link
-                key={item.path}
-                to={item.path}
-                className={`relative px-3 py-2 rounded-lg transition-all duration-300 glass-button ${
-                  location.pathname === item.path
-                    ? 'text-cyan-600 dark:text-cyan-400'
-                    : 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
-                }`}
-              >
-                {item.label}
-                {location.pathname === item.path && (
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-cyan-500/20 rounded-lg backdrop-blur-sm"
-                    layoutId="activeNav"
-                    transition={{ duration: 0.2 }}
-                  />
-                )}
-              </Link>
-            ))}
-          </nav>
 
-          <div className="hidden md:flex items-center space-x-4">
-            <motion.button
-              onClick={toggleTheme}
-              className="p-2 rounded-lg glass-button text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-            </motion.button>
-            <button className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors glass-button">
-              Sign In
+          {/* CTA Buttons */}
+          <div className={`hidden lg:flex items-center space-x-4 transition-all duration-300 ${isScrolled ? 'bg-white/90 backdrop-blur-lg border border-gray-200/50 rounded-full px-4 py-2 shadow-md' : ''}`}>
+            {/* Desktop Navigation */}
+            <nav className={`hidden lg:flex items-center space-x-8 mr-6 ${isScrolled ? 'ml-2' : ''}`}>
+              {navItems.map((item) => (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  className={`text-gray-700 hover:text-blue-600 transition-colors duration-200 font-medium ${isScrolled ? '' : 'text-white'}`}
+                >
+                  {item.label}
+                </a>
+              ))}
+            </nav>
+            <button className="px-6 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full hover:shadow-lg hover:scale-105 transition-all duration-200 font-medium">
+              Get Started Free
             </button>
-            <motion.button
-              className="px-6 py-2 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-lg font-medium hover:from-purple-600 hover:to-cyan-600 transition-all duration-300 text-white glass-button"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Get Started
-            </motion.button>
           </div>
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden"
-            onClick={() => setIsOpen(!isOpen)}
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className={`lg:hidden p-2 text-gray-700 hover:text-blue-600 transition-colors duration-200 transition-all duration-300 ${isScrolled ? 'bg-white/90 backdrop-blur-lg border border-gray-200/50 rounded-full px-4 py-2 shadow-md' : ''}`}
           >
-            {isOpen ? <X /> : <Menu />}
+            {isMenuOpen ? (
+              <X className="w-6 h-6" />
+            ) : (
+              <Menu className="w-6 h-6" />
+            )}
           </button>
         </div>
 
         {/* Mobile Menu */}
-        {isOpen && (
-          <motion.div
-            className="md:hidden mt-4 glass-container rounded-lg p-4"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-          >
-            {navItems.map((item) => (
-              <Link
-                key={item.path}
-                to={item.path}
-                className="block py-3 px-4 rounded-lg text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white glass-button transition-all"
-                onClick={() => setIsOpen(false)}
-              >
-                {item.label}
-              </Link>
-            ))}
-            <div className="mt-4 pt-4 border-t border-gray-300/20 dark:border-gray-700/20 flex flex-col space-y-2">
-              <button
-                onClick={toggleTheme}
-                className="py-2 px-4 glass-button text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white flex items-center gap-2"
-              >
-                {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-                {isDark ? 'Light Mode' : 'Dark Mode'}
-              </button>
-              <button className="py-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white glass-button">Sign In</button>
-              <button className="py-2 px-4 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-lg text-white glass-button">
-                Get Started
-              </button>
-            </div>
-          </motion.div>
+        {isMenuOpen && (
+          <div className="lg:hidden bg-white/95 backdrop-blur-lg border-t border-gray-200/50">
+            <nav className="py-4 space-y-2">
+              {navItems.map((item) => (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  className="block px-4 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50/50 transition-all duration-200 font-medium"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {item.label}
+                </a>
+              ))}
+              <div className="px-4 pt-4 space-y-3">
+                <button className="w-full px-6 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full hover:shadow-lg transition-all duration-200 font-medium">
+                  Get Started Free
+                </button>
+              </div>
+            </nav>
+          </div>
         )}
       </div>
-    </motion.header>
+    </header>
   );
 };
+
+export default Header;

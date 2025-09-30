@@ -1,33 +1,41 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { ThemeProvider } from './contexts/ThemeContext';
-import { Header } from './components/Header';
-import { Footer } from './components/Footer';
-import { Home } from './pages/Home';
-import { Pricing } from './pages/Pricing';
-import { About } from './pages/About';
-import { Learnings } from './pages/Learnings';
-import { Contact } from './pages/Contact';
+import Header from './components/Header';
+import HeroSection from './components/HeroSection';
+import StorySection from './components/StorySection';
+import TextToVideoSection from './components/TextToVideoSection';
+import ImageToVideoSection from './components/ImageToVideoSection';
+import TranslatorSection from './components/TranslatorSection';
+import FreeTrialSection from './components/FreeTrialSection';
+import CustomerStories from './components/CustomerStories';
+import FeaturedTeams from './components/FeaturedTeams';
+import FAQ from './components/FAQ';
+import Pricing from './components/Pricing';
+import About from './components/About';
+import Learning from './components/Learning';
+import Contact from './components/Contact';
+import Footer from './components/Footer';
 
 function App() {
   return (
-    <ThemeProvider>
-      <Router>
-        <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50 dark:from-gray-900 dark:via-blue-900 dark:to-purple-900 text-gray-900 dark:text-white transition-colors duration-300">
-          <Header />
-          <main>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/pricing" element={<Pricing />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/learnings" element={<Learnings />} />
-              <Route path="/contact" element={<Contact />} />
-            </Routes>
-          </main>
-          <Footer />
-        </div>
-      </Router>
-    </ThemeProvider>
+    <div className="min-h-screen bg-white">
+      <Header />
+      <main>
+        <HeroSection />
+        <StorySection />
+        <TextToVideoSection />
+        <ImageToVideoSection />
+        <TranslatorSection />
+        <FreeTrialSection />
+        <CustomerStories />
+        <FeaturedTeams />
+        <Pricing />
+        <About />
+        <Learning />
+        <Contact />
+        <FAQ />
+      </main>
+      <Footer />
+    </div>
   );
 }
 
